@@ -73,7 +73,7 @@
 
   <div id="loadingBox" class="card center loading">
     <div class="spinner" id="spinner"></div>
-    <div class="muted" id="loadingMsg">กำลังเชื่อมต่อ LINE... (v5)</div>
+    <div class="muted" id="loadingMsg">กำลังเชื่อมต่อ LINE... (v7)</div>
   </div>
 
   <div id="registerBox" class="card hidden">
@@ -85,8 +85,44 @@
       </div>
     </div>
     <div class="field"><label>ชื่อ-สกุล</label><input id="inName" type="text" placeholder="เช่น นางสาวรัตนาภรณ์ ..."></div>
-    <div class="field"><label>รหัสพนักงาน</label><input id="inEmpId" type="text" placeholder="เช่น 12345"></div>
-    <div class="field"><label>ตำแหน่ง</label><input id="inPosition" type="text" placeholder="เช่น พยาบาลวิชาชีพ"></div>
+    <div class="field">
+      <label>ตำแหน่ง</label>
+      <input id="inPosition" list="positionList" placeholder="เลือกหรือพิมพ์...">
+      <datalist id="positionList">
+        <option value="พยาบาลวิชาชีพ"></option>
+        <option value="พยาบาลวิชาชีพปฏิบัติการ"></option>
+        <option value="พยาบาลวิชาชีพชำนาญการ"></option>
+        <option value="พยาบาลวิชาชีพชำนาญการพิเศษ"></option>
+        <option value="ผู้ช่วยพยาบาล"></option>
+        <option value="พนักงานผู้ช่วยเหลือคนไข้"></option>
+      </datalist>
+    </div>
+    <div class="field">
+      <label>หน่วยงาน</label>
+      <input id="inDept" list="deptList" placeholder="เลือกหรือพิมพ์...">
+      <datalist id="deptList">
+        <option value="ตรวจรักษาพิเศษ"></option>
+        <option value="VIP"></option>
+        <option value="วิจัย"></option>
+        <option value="Anes"></option>
+        <option value="EENT"></option>
+        <option value="ER"></option>
+        <option value="IC/Supply"></option>
+        <option value="ICU"></option>
+        <option value="LR"></option>
+        <option value="Med ชาย"></option>
+        <option value="Med หญิง"></option>
+        <option value="NUR"></option>
+        <option value="OPD"></option>
+        <option value="OR"></option>
+        <option value="Ortho"></option>
+        <option value="Ped"></option>
+        <option value="PP"></option>
+        <option value="PSY"></option>
+        <option value="Sx."></option>
+        <option value="Supervisor"></option>
+      </datalist>
+    </div>
     <button class="big-btn btn-in" id="btnRegister" onclick="doRegister()">ลงทะเบียน</button>
   </div>
 
@@ -217,7 +253,7 @@ function startLiff() {
     return;
   }
 
-  diag('กำลังเริ่ม liff.init()... (v5)');
+  diag('กำลังเริ่ม liff.init()... (v7)');
 
   var settled = false;
   var initTimer = setTimeout(function () {
@@ -281,16 +317,18 @@ function renderRegister() {
 }
 function doRegister() {
   var name = document.getElementById('inName').value.replace(/^\s+|\s+$/g, '');
-  var empId = document.getElementById('inEmpId').value.replace(/^\s+|\s+$/g, '');
-  var pos = document.getElementById('inPosition').value.replace(/^\s+|\s+$/g, '');
+  var pos  = document.getElementById('inPosition').value.replace(/^\s+|\s+$/g, '');
+  var dept = document.getElementById('inDept').value.replace(/^\s+|\s+$/g, '');
   if (!name) { toast('กรุณากรอกชื่อ-สกุล'); return; }
+  if (!pos)  { toast('กรุณาเลือกหรือพิมพ์ตำแหน่ง'); return; }
+  if (!dept) { toast('กรุณาเลือกหรือพิมพ์หน่วยงาน'); return; }
 
   var btn = document.getElementById('btnRegister');
   btn.disabled = true; btn.innerText = 'กำลังบันทึก...';
 
   api({
     action: 'register', userId: USER.userId, displayName: USER.displayName,
-    pictureUrl: USER.pictureUrl, name: name, empId: empId, position: pos
+    pictureUrl: USER.pictureUrl, name: name, position: pos, department: dept
   }, function (res) {
     STATE = res; renderMain(); toast('ลงทะเบียนเรียบร้อย');
   }, function () {
@@ -305,7 +343,7 @@ function renderMain() {
   document.getElementById('pName').innerText = p.name;
   var sub = '';
   if (p.position) sub += p.position;
-  if (p.empId) sub += (sub ? '  ·  ' : '') + 'รหัส ' + p.empId;
+  if (p.department) sub += (sub ? '  ·  ' : '') + p.department;
   document.getElementById('pSub').innerText = sub;
 
   var badge = document.getElementById('statusBadge');
