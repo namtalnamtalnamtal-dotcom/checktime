@@ -48,8 +48,10 @@
 
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 14px; font-weight: 600; color: #3c4a47; margin-bottom: 6px; }
-  .field input { width: 100%; font-family: 'Sarabun', sans-serif; font-size: 16px; padding: 12px 14px; border: 1.5px solid #d9e2e0; border-radius: 12px; outline: none; }
-  .field input:focus { border-color: #06C755; }
+  .field input, .field select { width: 100%; font-family: 'Sarabun', sans-serif; font-size: 16px; padding: 12px 14px; border: 1.5px solid #d9e2e0; border-radius: 12px; outline: none; background: #fff; color: #1f2d2b; }
+  .field input:focus, .field select:focus { border-color: #06C755; }
+  .field select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7c78' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+  .field select:invalid { color: #9aa8a4; }
 
   .center { text-align: center; }
   .loading { padding: 60px 0; }
@@ -73,7 +75,7 @@
 
   <div id="loadingBox" class="card center loading">
     <div class="spinner" id="spinner"></div>
-    <div class="muted" id="loadingMsg">กำลังเชื่อมต่อ LINE... (v7)</div>
+    <div class="muted" id="loadingMsg">กำลังเชื่อมต่อ LINE... (v8)</div>
   </div>
 
   <div id="registerBox" class="card hidden">
@@ -87,41 +89,41 @@
     <div class="field"><label>ชื่อ-สกุล</label><input id="inName" type="text" placeholder="เช่น นางสาวรัตนาภรณ์ ..."></div>
     <div class="field">
       <label>ตำแหน่ง</label>
-      <input id="inPosition" list="positionList" placeholder="เลือกหรือพิมพ์...">
-      <datalist id="positionList">
-        <option value="พยาบาลวิชาชีพ"></option>
-        <option value="พยาบาลวิชาชีพปฏิบัติการ"></option>
-        <option value="พยาบาลวิชาชีพชำนาญการ"></option>
-        <option value="พยาบาลวิชาชีพชำนาญการพิเศษ"></option>
-        <option value="ผู้ช่วยพยาบาล"></option>
-        <option value="พนักงานผู้ช่วยเหลือคนไข้"></option>
-      </datalist>
+      <select id="inPosition" required>
+        <option value="" disabled selected>เลือกตำแหน่ง</option>
+        <option value="พยาบาลวิชาชีพ">พยาบาลวิชาชีพ</option>
+        <option value="พยาบาลวิชาชีพปฏิบัติการ">พยาบาลวิชาชีพปฏิบัติการ</option>
+        <option value="พยาบาลวิชาชีพชำนาญการ">พยาบาลวิชาชีพชำนาญการ</option>
+        <option value="พยาบาลวิชาชีพชำนาญการพิเศษ">พยาบาลวิชาชีพชำนาญการพิเศษ</option>
+        <option value="ผู้ช่วยพยาบาล">ผู้ช่วยพยาบาล</option>
+        <option value="พนักงานผู้ช่วยเหลือคนไข้">พนักงานผู้ช่วยเหลือคนไข้</option>
+      </select>
     </div>
     <div class="field">
       <label>หน่วยงาน</label>
-      <input id="inDept" list="deptList" placeholder="เลือกหรือพิมพ์...">
-      <datalist id="deptList">
-        <option value="ตรวจรักษาพิเศษ"></option>
-        <option value="VIP"></option>
-        <option value="วิจัย"></option>
-        <option value="Anes"></option>
-        <option value="EENT"></option>
-        <option value="ER"></option>
-        <option value="IC/Supply"></option>
-        <option value="ICU"></option>
-        <option value="LR"></option>
-        <option value="Med ชาย"></option>
-        <option value="Med หญิง"></option>
-        <option value="NUR"></option>
-        <option value="OPD"></option>
-        <option value="OR"></option>
-        <option value="Ortho"></option>
-        <option value="Ped"></option>
-        <option value="PP"></option>
-        <option value="PSY"></option>
-        <option value="Sx."></option>
-        <option value="Supervisor"></option>
-      </datalist>
+      <select id="inDept" required>
+        <option value="" disabled selected>เลือกหน่วยงาน</option>
+        <option value="ตรวจรักษาพิเศษ">ตรวจรักษาพิเศษ</option>
+        <option value="VIP">VIP</option>
+        <option value="วิจัย">วิจัย</option>
+        <option value="Anes">Anes</option>
+        <option value="EENT">EENT</option>
+        <option value="ER">ER</option>
+        <option value="IC/Supply">IC/Supply</option>
+        <option value="ICU">ICU</option>
+        <option value="LR">LR</option>
+        <option value="Med ชาย">Med ชาย</option>
+        <option value="Med หญิง">Med หญิง</option>
+        <option value="NUR">NUR</option>
+        <option value="OPD">OPD</option>
+        <option value="OR">OR</option>
+        <option value="Ortho">Ortho</option>
+        <option value="Ped">Ped</option>
+        <option value="PP">PP</option>
+        <option value="PSY">PSY</option>
+        <option value="Sx.">Sx.</option>
+        <option value="Supervisor">Supervisor</option>
+      </select>
     </div>
     <button class="big-btn btn-in" id="btnRegister" onclick="doRegister()">ลงทะเบียน</button>
   </div>
@@ -253,7 +255,7 @@ function startLiff() {
     return;
   }
 
-  diag('กำลังเริ่ม liff.init()... (v7)');
+  diag('กำลังเริ่ม liff.init()... (v8)');
 
   var settled = false;
   var initTimer = setTimeout(function () {
